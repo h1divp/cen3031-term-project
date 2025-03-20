@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "supabase": "^2.19.5"
+  },
+  "dependencies": {
+    "@heroui/avatar": "^2.2.12",
+    "@supabase/auth-ui-react": "^0.4.7",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/supabase-js": "^2.49.1"
+  }
+}

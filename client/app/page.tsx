@@ -1,11 +1,37 @@
 "use client";
+import { useEffect, useState } from 'react';
 import { Button, ButtonGroup } from "@heroui/button";
 import { Image } from "@heroui/image";
 import { Link } from "@heroui/link";
 import { Card } from "../components/Card";
 import { AccountSection } from "../components/Account";
+import { createClient } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation';
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export default function Home() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+      } else {
+        setLoading(false);
+      }
+    };
+    checkAuth();
+  }, [router]);
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top Navigation Bar */}
