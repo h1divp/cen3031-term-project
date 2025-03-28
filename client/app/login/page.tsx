@@ -18,7 +18,6 @@ export default function LoginPage() {
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      console.log(user)
       if (user) router.push('../')
     }
     checkAuth()
