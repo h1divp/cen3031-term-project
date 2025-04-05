@@ -4,7 +4,9 @@ import { useRouter } from 'next/navigation'
 import { Input } from "@heroui/input"
 import { Button, ButtonGroup } from "@heroui/button"
 import { Form } from "@heroui/form"
+import { Link } from "@heroui/link"
 import { createClient } from '@/utils/supabase/client'
+import { NavigationBarNoAuth } from '@/components/NavbarNoAuth'
 
 const supabase = createClient();
 
@@ -36,20 +38,20 @@ export default function SignupPage() {
     }
     if (email !== emailConfirm) {
       setError('Emails must be the same');
-      return;    
+      return;
     }
     if (password !== passwordConfirm) {
       setError('Passwords must be the same');
       return;
     }
-    
+
     setLoading(true)
 
     const { data, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: {display_name: `${username}`}
+        data: { display_name: `${username}` }
       }
     })
 
@@ -66,14 +68,8 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top Navigation Bar */}
-      <nav className="bg-white p-4 text-purple-500">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-xl font-bold">GitGud At Studying</div>
-        </div>
-      </nav>
+      <NavigationBarNoAuth />
 
-      {/* Main Content */}
       <div className="flex-1 bg-gray-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md transform transition-all">
           <Form onSubmit={handleSignup} className="w-full space-y-6 p-8 bg-white rounded-lg shadow-lg">
@@ -81,7 +77,7 @@ export default function SignupPage() {
               <h1 className="text-2xl font-bold text-center text-purple-500 mb-8">
                 Create New Account
               </h1>
-              
+
               {error && (
                 <div className="text-red-500 text-sm text-center p-3 bg-red-50 rounded-md">
                   {error}
@@ -107,7 +103,7 @@ export default function SignupPage() {
                 placeholder="Enter your email"
                 className="focus:ring-purple-500 focus:border-purple-500"
               />
-                
+
               <Input
                 label="Confirm email"
                 type="email"
@@ -148,13 +144,13 @@ export default function SignupPage() {
 
               <div className="text-center text-sm text-gray-600 mt-4">
                 Already have an account?{' '}
-                <Button
-                  variant="bordered"
-                  onPress={() => router.push('/login')}
-                  className="text-purple-600 hover:text-purple-800 font-medium px-1.5"
+                <Link
+                  href="/login"
+                  className="text-sm text-purple-600 hover:text-purple-800"
+                  underline="always"
                 >
                   Log in
-                </Button>
+                </Link>
               </div>
             </div>
           </Form>

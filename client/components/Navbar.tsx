@@ -6,12 +6,14 @@ import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar"
 import { User } from "@supabase/supabase-js"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export const NavigationBar = () => {
 
   const session = useUserContext();
   const router = useRouter();
+
+  const [displayName, setDisplayName] = useState<string>("no name");
 
   const signOutOnClick = () => {
     session?.signOut();
@@ -19,9 +21,17 @@ export const NavigationBar = () => {
   }
 
   // Get user session data every page load by leaving the useEffect dependancies empty.
+
   useEffect(() => {
     session?.getSessionData();
   }, [])
+
+  useEffect(() => {
+    if (session?.user) {
+      const { display_name } = session?.user?.user_metadata;
+      setDisplayName(display_name);
+    }
+  }, [session]);
 
   return (
     <Navbar maxWidth="full">
@@ -36,7 +46,7 @@ export const NavigationBar = () => {
       <NavbarContent justify="end">
         {session?.user ? (
           <div className="flex flex-row items-center">
-            <p className="mr-1">Logged in as {(session?.user?.id).slice(0, 10)}...</p>
+            <p className="mr-2">Logged in as <span className="font-bold">{displayName}</span></p>
             <Button variant="ghost" onClick={signOutOnClick}>Sign out</Button>
           </div>
         ) : (

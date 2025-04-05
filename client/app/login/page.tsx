@@ -5,6 +5,8 @@ import { createClient } from '@/utils/supabase/client'
 import { Input } from "@heroui/input"
 import { Button, ButtonGroup } from "@heroui/button"
 import { Form } from "@heroui/form";
+import { Link } from "@heroui/link";
+import { NavigationBarNoAuth } from '@/components/NavbarNoAuth'
 
 const supabase = createClient();
 
@@ -43,12 +45,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top Navigation Bar */}
-      <nav className="bg-white p-4 text-purple-500">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-xl font-bold">GitGud At Studying</div>
-        </div>
-      </nav>
+      <NavigationBarNoAuth />
 
       {/* Main Content */}
       <div className="flex-1 bg-gray-50 flex items-center justify-center p-4">
@@ -95,13 +92,13 @@ export default function LoginPage() {
 
               <div className="text-center text-sm text-gray-600 mt-4">
                 Don't have an account?{' '}
-                <Button
-                  variant="bordered"
-                  onClick={() => router.push('/signup')}
-                  className="text-purple-600 hover:text-purple-800 font-medium px-1.5"
+                <Link
+                  href="/signup"
+                  className="text-sm text-purple-600 hover:text-purple-800"
+                  underline="always"
                 >
                   Create one
-                </Button>
+                </Link>
               </div>
             </div>
           </Form>
